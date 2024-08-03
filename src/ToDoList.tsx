@@ -29,14 +29,29 @@ import { useForm } from "react-hook-form";
 // }
 
 function ToDoList() {
-  const { register, watch } = useForm();
-  console.log(watch());
+  const { register, handleSubmit, formState } = useForm();
+  const onValid = (data: any) => {
+    console.log(data);
+  };
+  console.log(formState.errors);
   return (
     <div>
-      <form>
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={handleSubmit(onValid)}
+      >
         <input {...register("toDo")} placeholder="Write a to do"></input>
-        <input {...register("name")} placeholder="Write your name"></input>
-        <input {...register("email")} placeholder="Write your email"></input>
+        <input
+          {...register("name", { required: true })}
+          placeholder="Write your name"
+        ></input>
+        <input
+          {...register("email", {
+            required: "email is requried",
+            minLength: 10,
+          })}
+          placeholder="Write your email"
+        ></input>
         <button>Add</button>
       </form>
     </div>

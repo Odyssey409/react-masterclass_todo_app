@@ -28,12 +28,27 @@ import { useForm } from "react-hook-form";
 //   );
 // }
 
+interface IForm {
+  toDo?: string;
+  name: string;
+  email: string;
+  passwords: string;
+}
+
 function ToDoList() {
-  const { register, handleSubmit, formState } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>({
+    defaultValues: {
+      email: "@naver.com",
+    },
+  });
   const onValid = (data: any) => {
     console.log(data);
   };
-  console.log(formState.errors);
+  console.log(errors);
   return (
     <div>
       <form
@@ -42,16 +57,35 @@ function ToDoList() {
       >
         <input {...register("toDo")} placeholder="Write a to do"></input>
         <input
-          {...register("name", { required: true })}
+          {...register("name", { required: "name is requried" })}
           placeholder="Write your name"
         ></input>
+        <span style={{ color: "red" }}>{errors?.name?.message as string}</span>
         <input
           {...register("email", {
             required: "email is requried",
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+              message: "Only naver.com emails allowed",
+            },
             minLength: 10,
           })}
           placeholder="Write your email"
         ></input>
+        <span style={{ color: "red" }}>{errors?.email?.message as string}</span>
+        <input
+          {...register("passwords", {
+            required: true,
+            minLength: {
+              value: 5,
+              message: "Your password is too short",
+            },
+          })}
+          placeholder="Write your password"
+        ></input>
+        <span style={{ color: "red" }}>
+          {errors?.passwords?.message as string}
+        </span>
         <button>Add</button>
       </form>
     </div>

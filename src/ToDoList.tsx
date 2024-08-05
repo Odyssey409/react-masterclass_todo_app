@@ -33,6 +33,8 @@ interface IForm {
   name: string;
   email: string;
   passwords: string;
+  passwordCheck: string;
+  extraError?: string;
 }
 
 function ToDoList() {
@@ -40,15 +42,22 @@ function ToDoList() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IForm>({
     defaultValues: {
       email: "@naver.com",
     },
   });
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: IForm) => {
+    if (data.passwords !== data.passwordCheck) {
+      setError(
+        "passwordCheck",
+        { message: "Passwords are incorrect" },
+        { shouldFocus: true }
+      );
+    }
+    // setError("extraError", { message: "Server offLine." });
   };
-  console.log(errors);
   return (
     <div>
       <form
@@ -57,7 +66,15 @@ function ToDoList() {
       >
         <input {...register("toDo")} placeholder="Write a to do"></input>
         <input
-          {...register("name", { required: "name is requried" })}
+          {...register("name", {
+            required: "name is requried",
+            validate: {
+              noNico: (value) =>
+                value.includes("nico") ? "no nicos allowed" : true,
+              noNick: (value) =>
+                value.includes("nick") ? "no nicos allowed" : true,
+            },
+          })}
           placeholder="Write your name"
         ></input>
         <span style={{ color: "red" }}>{errors?.name?.message as string}</span>
@@ -86,7 +103,24 @@ function ToDoList() {
         <span style={{ color: "red" }}>
           {errors?.passwords?.message as string}
         </span>
+
+        <input
+          {...register("passwordCheck", {
+            required: true,
+            minLength: {
+              value: 5,
+              message: "Your password is too short",
+            },
+          })}
+          placeholder="Write your passwordCheck"
+        ></input>
+        <span style={{ color: "red" }}>
+          {errors?.passwordCheck?.message as string}
+        </span>
         <button>Add</button>
+        <span style={{ color: "red" }}>
+          {errors?.extraError?.message as string}
+        </span>
       </form>
     </div>
   );

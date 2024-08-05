@@ -1,47 +1,20 @@
-import { useForm } from "react-hook-form";
-import { atom, useRecoilState } from "recoil";
-
-interface IForm {
-  toDo: string;
-}
-
-interface IToDo {
-  text: string;
-  id: number;
-  category: "TO_DO" | "DOING" | "DONE";
-}
-
-const toDoState = atom<IToDo[]>({
-  key: "toDo",
-  default: [],
-});
+import { useRecoilValue } from "recoil";
+import CreateToDo from "./CreateToDo";
+import { toDoState } from "./atoms";
+import ToDo from "./ToDo";
 
 function ToDoList() {
-  const [toDos, setToDos] = useRecoilState(toDoState);
-
-  const { register, handleSubmit, setValue } = useForm<IForm>();
-  const handleValid = ({ toDo }: IForm) => {
-    setToDos((oldToDos) => [
-      { text: toDo, id: Date.now(), category: "TO_DO" },
-      ...oldToDos,
-    ]);
-    setValue("toDo", ""); // 제출하면 입력칸 비워주는 코드
-  };
+  const toDos = useRecoilValue(toDoState);
 
   return (
     <div>
       <h1>To Dos</h1>
       <hr />
-      <form onSubmit={handleSubmit(handleValid)}>
-        <input
-          {...register("toDo", { required: "Please Write a To Do" })}
-          placeholder="Write a to do"
-        ></input>
-        <button>Add</button>
-      </form>
+      <CreateToDo />
       <ul>
         {toDos.map((toDo) => (
-          <li key={toDo.id}>{toDo.text}</li>
+          // <ToDo text={toDo.text} category={toDo.category} id={toDo.id} />
+          <ToDo key={toDo.id} {...toDo} /> // 이 방식은 위와 같은 내용으로 작동함 ...은 안에 요쇼를 벗기는 역할을 하기 때문
         ))}
       </ul>
     </div>

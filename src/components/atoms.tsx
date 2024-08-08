@@ -17,6 +17,16 @@ export const categoryState = atom<Categories>({
   default: Categories.TO_DO,
 });
 
+const savedCustomCategories = localStorage.getItem("customCategories");
+const initialCustomCategories = savedCustomCategories
+  ? JSON.parse(savedCustomCategories)
+  : [];
+
+export const CustomCategoryState = atom<string[]>({
+  key: "CustomCategory",
+  default: initialCustomCategories,
+});
+
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
   default: [],

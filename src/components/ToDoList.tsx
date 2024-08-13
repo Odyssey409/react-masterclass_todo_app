@@ -10,6 +10,8 @@ import {
 import ToDo from "./ToDo";
 import React, { useEffect } from "react";
 import CreateCustomCategory from "./CreateCustomCategory";
+import * as Styles from "./styles";
+import CustomCategoryList from "./CustomCategoryList";
 
 function ToDoList() {
   const toDos = useRecoilValue(toDoSelector);
@@ -38,25 +40,33 @@ function ToDoList() {
   }, [toDosState]);
 
   return (
-    <div>
-      <h1>To Dos</h1>
-      <hr />
-      <select value={category} onInput={onInput}>
-        <option value={Categories.TO_DO}>To Do</option>
-        <option value={Categories.DOING}>Doing</option>
-        <option value={Categories.DONE}>Done</option>
-        {customCategories.map((customCategory, index) => (
-          <option key={index} value={customCategory}>
-            {customCategory}
-          </option>
-        ))}
-      </select>
-      <CreateCustomCategory />
+    <Styles.Container>
+      <Styles.ToDoTitle>TODO LIST</Styles.ToDoTitle>
+      <Styles.CategoryContainer>
+        <CreateCustomCategory />
+        <Styles.CategorySelect value={category} onInput={onInput}>
+          <Styles.CategorySelectOption value={Categories.TO_DO}>
+            To Do
+          </Styles.CategorySelectOption>
+          <Styles.CategorySelectOption value={Categories.DOING}>
+            Doing
+          </Styles.CategorySelectOption>
+          <Styles.CategorySelectOption value={Categories.DONE}>
+            Done
+          </Styles.CategorySelectOption>
+          {customCategories.map((customCategory, index) => (
+            <Styles.CategorySelectOption key={index} value={customCategory}>
+              {customCategory}
+            </Styles.CategorySelectOption>
+          ))}
+        </Styles.CategorySelect>
+      </Styles.CategoryContainer>
+      <CustomCategoryList />
       <CreateToDo />
       {toDos?.map((toDo) => (
         <ToDo key={toDo.id} {...toDo} />
       ))}
-    </div>
+    </Styles.Container>
   );
 }
 

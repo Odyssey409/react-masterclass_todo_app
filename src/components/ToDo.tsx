@@ -1,6 +1,7 @@
 import React from "react";
 import { Categories, CustomCategoryState, IToDo, toDoState } from "./atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import * as Styles from "./styles";
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
@@ -27,37 +28,37 @@ function ToDo({ text, category, id }: IToDo) {
     setToDos((oldToDos) => oldToDos.filter((toDo) => toDo.id !== id));
   };
   return (
-    <li>
-      <span> {text} </span>
+    <Styles.ToDoContainer>
+      <Styles.ToDoDeleteBtn onClick={onDelete}>❌</Styles.ToDoDeleteBtn>
+      <Styles.ToDoText> ✔ {text} </Styles.ToDoText>
       {category !== Categories.DOING && (
-        <button name={Categories.DOING} onClick={onClick}>
+        <Styles.ToDoCategoryBtn name={Categories.DOING} onClick={onClick}>
           Doing
-        </button>
+        </Styles.ToDoCategoryBtn>
       )}
       {category !== Categories.TO_DO && (
-        <button name={Categories.TO_DO} onClick={onClick}>
+        <Styles.ToDoCategoryBtn name={Categories.TO_DO} onClick={onClick}>
           To Do
-        </button>
+        </Styles.ToDoCategoryBtn>
       )}
       {category !== Categories.DONE && (
-        <button name={Categories.DONE} onClick={onClick}>
+        <Styles.ToDoCategoryBtn name={Categories.DONE} onClick={onClick}>
           Done
-        </button>
+        </Styles.ToDoCategoryBtn>
       )}
       {customCategories.map(
         (customCategory) =>
           category !== customCategory && (
-            <button
+            <Styles.ToDoCategoryBtn
               key={customCategory}
               name={customCategory}
               onClick={onClick}
             >
               {customCategory}
-            </button>
+            </Styles.ToDoCategoryBtn>
           )
       )}
-      <button onClick={onDelete}>Delete</button>
-    </li>
+    </Styles.ToDoContainer>
   );
 }
 

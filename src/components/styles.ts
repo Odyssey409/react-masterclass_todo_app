@@ -1,5 +1,13 @@
 import styled from "@emotion/styled";
-import exp from "constants";
+
+export const MasterWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  min-width: 1400px;
+  background-color: rgb(238, 238, 238);
+`;
 
 export const Container = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap");
@@ -8,6 +16,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  width: 1400px;
   height: 100vh;
   background-color: rgb(238, 238, 238);
 `;

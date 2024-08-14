@@ -40,33 +40,35 @@ function ToDoList() {
   }, [toDosState]);
 
   return (
-    <Styles.Container>
-      <Styles.ToDoTitle>TODO LIST</Styles.ToDoTitle>
-      <Styles.CategoryContainer>
-        <CreateCustomCategory />
-        <Styles.CategorySelect value={category} onInput={onInput}>
-          <Styles.CategorySelectOption value={Categories.TO_DO}>
-            To Do
-          </Styles.CategorySelectOption>
-          <Styles.CategorySelectOption value={Categories.DOING}>
-            Doing
-          </Styles.CategorySelectOption>
-          <Styles.CategorySelectOption value={Categories.DONE}>
-            Done
-          </Styles.CategorySelectOption>
-          {customCategories.map((customCategory, index) => (
-            <Styles.CategorySelectOption key={index} value={customCategory}>
-              {customCategory}
+    <Styles.MasterWrapper>
+      <Styles.Container>
+        <Styles.ToDoTitle>TODO LIST</Styles.ToDoTitle>
+        <Styles.CategoryContainer>
+          <CreateCustomCategory />
+          <Styles.CategorySelect value={category} onInput={onInput}>
+            <Styles.CategorySelectOption value={Categories.TO_DO}>
+              To Do
             </Styles.CategorySelectOption>
-          ))}
-        </Styles.CategorySelect>
-      </Styles.CategoryContainer>
-      <CustomCategoryList />
-      <CreateToDo />
-      {toDos?.map((toDo) => (
-        <ToDo key={toDo.id} {...toDo} />
-      ))}
-    </Styles.Container>
+            <Styles.CategorySelectOption value={Categories.DOING}>
+              Doing
+            </Styles.CategorySelectOption>
+            <Styles.CategorySelectOption value={Categories.DONE}>
+              Done
+            </Styles.CategorySelectOption>
+            {customCategories.map((customCategory, index) => (
+              <Styles.CategorySelectOption key={index} value={customCategory}>
+                {customCategory}
+              </Styles.CategorySelectOption>
+            ))}
+          </Styles.CategorySelect>
+        </Styles.CategoryContainer>
+        <CustomCategoryList />
+        <CreateToDo />
+        {toDos?.map((toDo) => (
+          <ToDo key={toDo.id} {...toDo} />
+        ))}
+      </Styles.Container>
+    </Styles.MasterWrapper>
   );
 }
 
